@@ -4,3 +4,7 @@ variable "tags" {
     environment = string
   })
 }
+
+variable "cidr_block" {
+  type = string
+}
