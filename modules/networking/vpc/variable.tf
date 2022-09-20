@@ -1,8 +1,7 @@
-variable "tags" {
-  type = object({
-    application = string,
-    environment = string
-  })
+variable "name" {
+  type = string
+  default = "main-vpc"
+  description = "Name of the VPC"
 }
 
 variable "cidr_block" {
