@@ -38,6 +38,15 @@ module "ecr" {
   ecr_repository_name = local.application
 }
 
+module "rds" {
+  source        = "./modules/rds"
+  database_identifier = "${local.application}-${local.environment}-rds"
+  database_name = local.application
+  password      = "password"
+  username      = "username"
+  vpc_id        = module.vpc.vpc_id
+}
+
 output "ecr_repository_url" {
   value = module.ecr.ecr_repository_url
 }
