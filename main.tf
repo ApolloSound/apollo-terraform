@@ -12,7 +12,12 @@ locals {
   environment = "production"
 
   networking = {
-    cidr_block = "10.0.0.0/16"
+    cidr_block       = "10.0.0.0/16"
+    database_subnets = [
+      "10.0.4.0/24",
+      "10.0.5.0/24",
+      "10.0.6.0/24"
+    ]
   }
 }
 
@@ -39,12 +44,13 @@ module "ecr" {
 }
 
 module "rds" {
-  source        = "./modules/rds"
-  database_identifier = "${local.application}-${local.environment}-rds"
-  database_name = local.application
-  password      = "password"
-  username      = "username"
-  vpc_id        = module.vpc.vpc_id
+  source              = "./modules/rds"
+  database_identifier = "${local.application}-${local.environment}-db"
+  database_name       = local.application
+  password            = "password"
+  username            = "username"
+  subnets             = local.networking.database_subnets
+  vpc_id              = module.vpc.vpc_id
 }
 
 output "ecr_repository_url" {

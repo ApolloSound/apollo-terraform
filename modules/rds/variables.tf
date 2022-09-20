@@ -34,12 +34,18 @@ variable "username" {
 
 variable "password" {
   type        = string
+  sensitive   = true
   description = "Password for the master DB user"
 }
 
 variable "database_identifier" {
-  type = string
+  type        = string
   description = "The database name identifier"
+}
+
+variable "subnets" {
+  type        = list(string)
+  description = "A list of VPC subnets"
 }
 
 variable "vpc_id" {
