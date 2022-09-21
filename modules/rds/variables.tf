@@ -43,12 +43,12 @@ variable "database_identifier" {
   description = "The database name identifier"
 }
 
-variable "subnets" {
-  type        = list(string)
-  description = "A list of VPC subnets"
+variable "subnet_group_name" {
+  type        = string
+  description = "The name of the DB subnet group to use for the DB instance"
 }
 
-variable "vpc_id" {
+variable "database_security_group_id" {
   type        = string
-  description = "The VPC ID"
+  description = "The id of the DB security group to associate with"
 }

@@ -11,12 +11,13 @@ locals {
   application = "apollo"
   environment = "production"
 
+  availability_zones = ["eu-west-1a", "eu-west-1b"]
+
   networking = {
     cidr_block       = "10.0.0.0/16"
     database_subnets = [
-      "10.0.4.0/24",
-      "10.0.5.0/24",
-      "10.0.6.0/24"
+      "10.0.10.0/24",
+      "10.0.11.0/24"
     ]
   }
 }
@@ -32,10 +33,13 @@ provider "aws" {
   }
 }
 
-module "vpc" {
-  source     = "./modules/networking/vpc"
-  cidr_block = local.networking.cidr_block
-  name       = "${local.application}-${local.environment}-vpc"
+module "networking" {
+  source             = "./modules/networking"
+  application        = local.application
+  environment        = local.environment
+  availability_zones = local.availability_zones
+  cidr_block         = local.networking.cidr_block
+  database_subnets   = local.networking.database_subnets
 }
 
 module "ecr" {
@@ -44,13 +48,13 @@ module "ecr" {
 }
 
 module "rds" {
-  source              = "./modules/rds"
-  database_identifier = "${local.application}-${local.environment}-db"
-  database_name       = local.application
-  password            = "password"
-  username            = "username"
-  subnets             = local.networking.database_subnets
-  vpc_id              = module.vpc.vpc_id
+  source                     = "./modules/rds"
+  database_identifier        = "${local.application}-${local.environment}-db"
+  database_name              = local.application
+  password                   = "password"
+  username                   = "username"
+  subnet_group_name          = module.networking.database_subnet_group_name
+  database_security_group_id = module.networking.database_security_group_id
 }
 
 output "ecr_repository_url" {
