@@ -47,6 +47,12 @@ module "ecr" {
   ecr_repository_name = local.application
 }
 
+module "ecs" {
+  source      = "./modules/ecs"
+  application = local.application
+  environment = local.environment
+}
+
 module "rds" {
   source                     = "./modules/rds"
   database_identifier        = "${local.application}-${local.environment}-db"
