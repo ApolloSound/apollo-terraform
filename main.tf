@@ -51,6 +51,7 @@ module "ecs" {
   source      = "./modules/ecs"
   application = local.application
   environment = local.environment
+  image_url   = module.ecr.ecr_repository_url
 }
 
 module "rds" {
