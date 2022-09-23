@@ -19,6 +19,10 @@ locals {
       "10.0.10.0/24",
       "10.0.11.0/24"
     ]
+    ecs_subnets = [
+      "10.0.20.0/24",
+      "10.0.30.0/24"
+    ]
   }
 }
 
@@ -52,6 +56,9 @@ module "ecs" {
   application = local.application
   environment = local.environment
   image_url   = module.ecr.ecr_repository_url
+  availability_zones = local.availability_zones
+  ecs_subnets = local.networking.ecs_subnets
+  vpc_id = module.networking.vpc_id
 }
 
 module "rds" {
