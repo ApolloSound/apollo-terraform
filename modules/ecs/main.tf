@@ -22,20 +22,20 @@ resource "aws_ecs_task_definition" "task_definition" {
   memory                   = 1024
   execution_role_arn       = module.ecs-role.ecs_task_execution_role_arn
   container_definitions    = jsonencode(
-[
-{
-name = "first"
-image = var.image_url
-cpu = 10
-memory = 512
-essential = true
-portMappings = [
-{
-containerPort = 8080
-hostPort = 8080
-}
-]
-}
-])
-family = "service"
+    [
+      {
+        name         = "first"
+        image        = var.image_url
+        cpu          = 10
+        memory       = 512
+        essential    = true
+        portMappings = [
+          {
+            containerPort = 8080
+            hostPort      = 8080
+          }
+        ]
+      }
+    ])
+  family = "service"
 }
