@@ -59,6 +59,13 @@ module "ecs" {
   vpc_id             = module.networking.vpc_id
 }
 
+module "alb" {
+  source      = "./modules/alb"
+  application = local.application
+  environment = local.environment
+  vpc_id      = module.networking.vpc_id
+}
+
 module "rds" {
   source              = "./modules/rds"
   database_identifier = "${local.application}-${local.environment}-db"
