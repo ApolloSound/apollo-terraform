@@ -1,3 +1,18 @@
+variable "application" {
+  type        = string
+  description = "The name of the application"
+}
+
+variable "environment" {
+  type        = string
+  description = "The environment of the application"
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "The VPC ID"
+}
+
 variable "allocated_storage" {
   default     = 10
   description = "The allocated storage in gigabytes"
@@ -43,12 +58,12 @@ variable "database_identifier" {
   description = "The database name identifier"
 }
 
-variable "subnet_group_name" {
-  type        = string
-  description = "The name of the DB subnet group to use for the DB instance"
+variable "database_subnets" {
+  type        = list(string)
+  description = "Subnets for the database"
 }
 
-variable "database_security_group_id" {
-  type        = string
-  description = "The id of the DB security group to associate with"
+variable "availability_zones" {
+  type        = list(string)
+  description = "Availability zones"
 }

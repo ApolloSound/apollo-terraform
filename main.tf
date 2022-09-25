@@ -38,12 +38,10 @@ provider "aws" {
 }
 
 module "networking" {
-  source             = "./modules/networking"
-  application        = local.application
-  environment        = local.environment
-  availability_zones = local.availability_zones
-  cidr_block         = local.networking.cidr_block
-  database_subnets   = local.networking.database_subnets
+  source      = "./modules/networking"
+  application = local.application
+  environment = local.environment
+  cidr_block  = local.networking.cidr_block
 }
 
 module "ecr" {
@@ -52,23 +50,26 @@ module "ecr" {
 }
 
 module "ecs" {
-  source      = "./modules/ecs"
-  application = local.application
-  environment = local.environment
-  image_url   = module.ecr.ecr_repository_url
+  source             = "./modules/ecs"
+  application        = local.application
+  environment        = local.environment
+  image_url          = module.ecr.ecr_repository_url
   availability_zones = local.availability_zones
-  ecs_subnets = local.networking.ecs_subnets
-  vpc_id = module.networking.vpc_id
+  ecs_subnets        = local.networking.ecs_subnets
+  vpc_id             = module.networking.vpc_id
 }
 
 module "rds" {
-  source                     = "./modules/rds"
-  database_identifier        = "${local.application}-${local.environment}-db"
-  database_name              = local.application
-  password                   = "password"
-  username                   = "username"
-  subnet_group_name          = module.networking.database_subnet_group_name
-  database_security_group_id = module.networking.database_security_group_id
+  source              = "./modules/rds"
+  database_identifier = "${local.application}-${local.environment}-db"
+  database_name       = local.application
+  password            = "password"
+  username            = "username"
+  application         = local.application
+  environment         = local.environment
+  availability_zones  = local.availability_zones
+  database_subnets    = local.networking.database_subnets
+  vpc_id              = module.networking.vpc_id
 }
 
 output "ecr_repository_url" {
