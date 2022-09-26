@@ -23,7 +23,7 @@ variable "ecs_subnets_cidr_block" {
   description = "ECS subnet CIDR block"
 }
 
-variable "database_subnets_cidr_block" {
+variable "rds_subnets_cidr_block" {
   type        = list(string)
   description = "RDS subnet CIDR block"
 }

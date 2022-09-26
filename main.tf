@@ -44,6 +44,7 @@ module "networking" {
   vpc_cidr_block         = local.networking.cidr_block
   availability_zones     = local.availability_zones
   ecs_subnets_cidr_block = local.networking.ecs_subnets
+  rds_subnets_cidr_block = local.networking.database_subnets
 }
 
 module "ecr" {
@@ -65,7 +66,9 @@ module "alb" {
   application = local.application
   environment = local.environment
   vpc_id      = module.networking.vpc_id
+  alb_subnets = module.networking.ecs_subnets_ids
 }
+
 
 module "rds" {
   source              = "./modules/rds"
@@ -75,9 +78,8 @@ module "rds" {
   username            = "username"
   application         = local.application
   environment         = local.environment
-  availability_zones  = local.availability_zones
-  database_subnets    = local.networking.database_subnets
   vpc_id              = module.networking.vpc_id
+  rds_subnet_ids      = module.networking.rds_subnets_ids
 }
 
 output "ecr_repository_url" {

@@ -58,12 +58,9 @@ variable "database_identifier" {
   description = "The database name identifier"
 }
 
-variable "database_subnets" {
+variable "rds_subnet_ids" {
   type        = list(string)
-  description = "Subnets for the database"
+  description = "A list of RDS subnet IDs"
 }
 
-variable "availability_zones" {
-  type        = list(string)
-  description = "Availability zones"
-}
+

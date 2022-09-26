@@ -1,7 +1,7 @@
 resource "aws_alb" "ecs_alb" {
   load_balancer_type = "application"
   name               = "${var.application}-${var.environment}-alb"
-  subnets            = [] // TODO: Move all subnets to networking module and reference here
+  subnets            = var.alb_subnets
 }
 
 resource "aws_alb_target_group" "ecs_alb_target_group" {
