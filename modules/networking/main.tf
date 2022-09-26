@@ -1,6 +1,24 @@
-resource "aws_vpc" "vpc" {
-  cidr_block = var.cidr_block
-  tags       = {
-    Name = "${var.application}-${var.environment}-vpc"
-  }
+module "vpc" {
+  source      = "./vpc"
+  application = var.application
+  environment = var.environment
+  cidr_block  = var.vpc_cidr_block
+}
+
+module "ecs_subnet" {
+  source              = "./subnets"
+  application         = var.application
+  environment         = var.environment
+  vpc_id              = module.vpc.vpc_id
+  cidr_subnets_blocks = var.ecs_subnets_cidr_block
+  availability_zones  = var.availability_zones
+}
+
+module "database_subnet" {
+  source              = "./subnets"
+  application         = var.application
+  environment         = var.environment
+  vpc_id              = module.vpc.vpc_id
+  cidr_subnets_blocks = var.ecs_subnets_cidr_block
+  availability_zones  = var.availability_zones
 }

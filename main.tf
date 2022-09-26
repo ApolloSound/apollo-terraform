@@ -38,10 +38,12 @@ provider "aws" {
 }
 
 module "networking" {
-  source      = "./modules/networking"
-  application = local.application
-  environment = local.environment
-  cidr_block  = local.networking.cidr_block
+  source                 = "./modules/networking"
+  application            = local.application
+  environment            = local.environment
+  vpc_cidr_block         = local.networking.cidr_block
+  availability_zones     = local.availability_zones
+  ecs_subnets_cidr_block = local.networking.ecs_subnets
 }
 
 module "ecr" {
@@ -50,13 +52,12 @@ module "ecr" {
 }
 
 module "ecs" {
-  source             = "./modules/ecs"
-  application        = local.application
-  environment        = local.environment
-  image_url          = module.ecr.ecr_repository_url
-  availability_zones = local.availability_zones
-  ecs_subnets        = local.networking.ecs_subnets
-  vpc_id             = module.networking.vpc_id
+  source          = "./modules/ecs"
+  application     = local.application
+  environment     = local.environment
+  image_url       = module.ecr.ecr_repository_url
+  vpc_id          = module.networking.vpc_id
+  ecs_subnets_ids = module.networking.ecs_subnets_ids
 }
 
 module "alb" {

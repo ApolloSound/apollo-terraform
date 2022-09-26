@@ -18,11 +18,7 @@ variable "vpc_id" {
   description = "The ID of the VPC"
 }
 
-variable "ecs_subnets" {
+variable "ecs_subnets_ids" {
   type        = list(string)
-  description = "The subnets for the ecs cluster"
-}
-variable "availability_zones" {
-  type        = list(string)
-  description = "The availability zones for the ecs cluster"
+  description = "The subnets ids for the ECS cluster"
 }
