@@ -38,6 +38,13 @@ resource "aws_ecs_task_definition" "task_definition" {
           {
             containerPort = 8080
             hostPort      = 8080
+            protocol      = "tcp"
+          }
+        ]
+        environment = [
+          {
+            name  = "ENVIRONMENT"
+            value = var.environment
           }
         ]
       }
