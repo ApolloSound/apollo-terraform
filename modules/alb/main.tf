@@ -29,8 +29,3 @@ resource "aws_alb_target_group" "target_group" {
   port        = 8080
   vpc_id      = var.vpc_id
 }
-
-resource "aws_alb_target_group_attachment" "target_group_attachment" {
-  target_group_arn = aws_alb_target_group.target_group.arn
-  target_id        = aws_alb_listener.ecs_alb_listener.id
-}
